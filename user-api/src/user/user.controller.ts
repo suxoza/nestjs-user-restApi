@@ -9,6 +9,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { StoreUserDto } from 'src/dto/store-user.dto';
+// import { GetUserDto } from 'src/dto/get-user.dto';
 import { UserService } from './user.service';
 
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -30,6 +31,16 @@ export class UserController {
     return this.userService.getUser(userId);
   }
 
+  /*
+  
+  * depricated for the time being, due to swagger limitation
+  
+  @Get('user/:userId')  
+  getUser(@Body('userId') user: GetUserDto) {
+
+  }
+  */
+
   @Get('user/:avatar/avatar')
   getUserByAvatar(@Param('avatar') avatar: string) {
     return this.userService.getUserByAvatar(avatar);
@@ -37,7 +48,7 @@ export class UserController {
 
   @Get('user/:avatarHash/avatarHash')
   getUserByAvatarHash(@Param('avatarHash') avatarHash: string) {
-    return this.userService.getUserByAvatar(avatarHash);
+    return this.userService.getUserByAvatarHash(avatarHash);
   }
 
   @Post('user')
