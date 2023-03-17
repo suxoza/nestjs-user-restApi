@@ -7,7 +7,7 @@ docker-compose up --build
 
 # Swagger / Demo
 ```
-http://142.93.234.118:8000/api
+http://142.93.234.118:3000/api
 ```
 
 # video demo
