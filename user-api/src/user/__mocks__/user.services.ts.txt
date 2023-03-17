@@ -1,0 +1,9 @@
+import { userStub } from "../../../test/stubs/user.stub"
+
+export const UserService = jest.fn().mockReturnValue({
+    getUser: jest.fn().mockReturnValue(userStub()),
+    getUserByAvatar: jest.fn().mockReturnValue(userStub()),
+    getUserByAvatarHash: jest.fn().mockReturnValue(userStub()),
+    store: jest.fn().mockReturnValue(userStub()),
+    delete: jest.fn().mockReturnValue(userStub()),
+})

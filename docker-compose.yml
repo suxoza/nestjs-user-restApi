@@ -1,0 +1,47 @@
+version: "3.7"
+services:
+
+  nest-user-api:
+    build: ./user-api
+    volumes:
+      - ./user-api/images:/usr/src/app/images
+    ports:
+      - "3000:3000"
+    depends_on:
+      - rabbitmq
+      - mongo_server
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=pass
+
+  # test:
+  #   build: 
+  #     context: ./user-api
+  #     dockerfile: ./Dockerfile.test
+  #   volumes:
+  #     - ./user-api/images:/usr/src/app/images
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - rabbitmq
+  #     - mongo_server
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=user
+  #     - RABBITMQ_DEFAULT_PASS=pass
+
+  rabbitmq:
+    hostname: rabbitmq
+    image: "rabbitmq:3-management" 
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=pass
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  mongo_server:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+
