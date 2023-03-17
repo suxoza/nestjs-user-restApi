@@ -1,4 +1,4 @@
-## NextJS UserRestAPI
+## NestJS UserRestAPI
 
 # build
 ```
