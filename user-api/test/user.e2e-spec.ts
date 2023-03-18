@@ -49,7 +49,8 @@ describe('User', () => {
       });
   });
 
-  it(`DELETE /api/user/{avatarHash}/avatar Retrives data by avatarHash`, () => {
+  it(`DELETE /api/user/{userId}/avatar Removes the file from the FileSystem storage. Removes the stored entry from db.
+  `, () => {
     return request(url)
       .delete(`user/${result['_id']}`)
       .expect(200)

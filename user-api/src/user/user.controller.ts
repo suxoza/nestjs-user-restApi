@@ -113,7 +113,7 @@ export class UserController {
     return this.userService.create(user);
   }
 
-  @Delete('user/:userId')
+  @Delete('user/:userId/avatar')
   delete(@Param('userId') userId: string) {
     return this.userService.delete(userId);
   }
