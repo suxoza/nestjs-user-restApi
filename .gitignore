@@ -1,16 +1,17 @@
 # compiled output
-/dist
-/node_modules
+*/dist
+*/node_modules
 
 # Logs
 logs
 *.log
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
+*npm-debug.log*
+*pnpm-debug.log*
+*yarn-debug.log*
+*yarn-error.log*
+*lerna-debug.log*
+*lock.json
+*.zip
 # OS
 .DS_Store
 user-api/images/*
@@ -21,11 +22,11 @@ user-api/images/*
 
 # IDEs and editors
 /.idea
-.project
-.classpath
-.c9/
+*.project
+*.classpath
+*.c9/
 *.launch
-.settings/
+*.settings/
 *.sublime-workspace
 
 # IDE - VSCode
