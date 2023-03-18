@@ -7,6 +7,7 @@ import {
   Body,
   UploadedFile,
   UseInterceptors,
+  Injectable,
 } from '@nestjs/common';
 import { StoreUserDto } from 'src/dto/store-user.dto';
 // import { GetUserDto } from 'src/dto/get-user.dto';
@@ -18,17 +19,18 @@ import { RabbitMQService } from 'src/rabbit/rabbit-mq.service';
 import { MailService } from 'src/mail/mail.service';
 import { diskStorage } from 'multer';
 
+@Injectable()
 @Controller('/api/')
 export class UserController {
   constructor(
     private userService: UserService,
     private rabbitMQService: RabbitMQService,
-    private mailService: MailService
+    private mailService: MailService,
   ) {}
 
-  @Get('user/:userId')  
-  getUser(@Param('userId') userId: string) {
-    return this.userService.getUser(userId);
+  @Get('user/:userId')
+  async getUser(@Param('userId') userId: string) {
+    return await this.userService.getUser(userId);
   }
 
   /*
@@ -42,31 +44,33 @@ export class UserController {
   */
 
   @Get('user/:avatar/avatar')
-  getUserByAvatar(@Param('avatar') avatar: string) {
-    return this.userService.getUserByAvatar(avatar);
+  async getUserByAvatar(@Param('avatar') avatar: string) {
+    return await this.userService.getUserByAvatar(avatar);
   }
 
   @Get('user/:avatarHash/avatarHash')
-  getUserByAvatarHash(@Param('avatarHash') avatarHash: string) {
-    return this.userService.getUserByAvatarHash(avatarHash);
+  async getUserByAvatarHash(@Param('avatarHash') avatarHash: string) {
+    return await this.userService.getUserByAvatarHash(avatarHash);
   }
 
-  @Post('user')
+  @Post('users')
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('avatar',  {
-    storage: diskStorage({
-      destination: './images',
-      filename: (_, file, cb) => {
-        try {
-          const [ name, ext ] = file.originalname.split('.')
-          const fileName = `${name}.${ext}`
-          cb(null, fileName)
-        } catch (error) {
-          console.error(error)
-        } 
-      }
-    })
-  }))
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      storage: diskStorage({
+        destination: './images',
+        filename: (_, file, cb) => {
+          try {
+            const [name, ext] = file.originalname.split('.');
+            const fileName = `${name}.${ext}`;
+            cb(null, fileName);
+          } catch (error) {
+            console.error(error);
+          }
+        },
+      }),
+    }),
+  )
   @ApiBody({
     schema: {
       type: 'object',
@@ -86,33 +90,31 @@ export class UserController {
       },
     },
   })
-  async store(
-    @Body() user: StoreUserDto,
-    @UploadedFile() avatar,
-  ) {
-    user.set(avatar.originalname)
-    
+  async store(@Body() user: StoreUserDto, @UploadedFile() avatar) {
+    console.log('testing here....');
+    user.set(avatar.originalname);
+
     // sent rabbitmq queue
     try {
       await this.rabbitMQService.send('some-channel', {
         message: 'some message here',
       });
     } catch (error) {
-      console.log('Queue Error!', error)
+      console.log('Queue Error!', error);
     }
 
     // send dummy email
     try {
-      await this.mailService.sendUserConfirmation(user.email)
+      await this.mailService.sendUserConfirmation(user.email);
     } catch (error) {
-      console.log('Email transmission error')
+      console.log('Email transmission error');
     }
 
     return this.userService.create(user);
   }
 
   @Delete('user/:userId')
-  delete(@Param('userId') userId: string ) {
+  delete(@Param('userId') userId: string) {
     return this.userService.delete(userId);
   }
 }

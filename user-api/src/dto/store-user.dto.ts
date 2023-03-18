@@ -13,10 +13,10 @@ export class StoreUserDto {
   avatar: string;
   avatarHash: string;
   date_added: number;
-  
+
   set(avatar: string) {
-    this.avatar = avatar
+    this.avatar = avatar;
     this.avatarHash = Buffer.from(avatar).toString('base64');
-    this.date_added = Math.round(Number(new Date().getTime() / 1000))
+    this.date_added = Math.round(Number(new Date().getTime() / 1000));
   }
 }
