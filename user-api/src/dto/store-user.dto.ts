@@ -19,5 +19,4 @@ export class StoreUserDto {
     this.avatarHash = Buffer.from(avatar).toString('base64');
     this.date_added = Math.round(Number(new Date().getTime() / 1000))
   }
-
 }

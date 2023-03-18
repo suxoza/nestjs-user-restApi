@@ -10,11 +10,11 @@ import { UserSchema } from 'src/schemas/user.schema';
   controllers: [UserController],
   providers: [UserService],
   imports: [
-    RabbitMQModule, 
+    RabbitMQModule,
     MailModule,
 
     MongooseModule.forRoot('mongodb://mongo_server:27017/test_db'),
-    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
 })
 export class UserModule {}

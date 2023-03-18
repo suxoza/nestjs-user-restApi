@@ -1,5 +1,4 @@
-import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
-import { Buffer } from 'node:buffer';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class GetUserDto {
   @IsString()
