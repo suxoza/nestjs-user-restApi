@@ -93,9 +93,13 @@ export class UserController {
     user.set(avatar.originalname)
     
     // sent rabbitmq queue
-    this.rabbitMQService.send('some-channel', {
-      message: 'some message here',
-    });
+    try {
+      await this.rabbitMQService.send('some-channel', {
+        message: 'some message here',
+      });
+    } catch (error) {
+      console.log('Queue Error!', error)
+    }
 
     // send dummy email
     try {

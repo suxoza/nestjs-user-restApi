@@ -51,16 +51,13 @@ export class UserService {
       throw new HttpException('User not found!', HttpStatus.FORBIDDEN);
     const avatar = user.avatar
     try {
-      await fs.unlinkSync(`./images/${avatar}`)
+      fs.unlinkSync(`./images/${avatar}`)
       sharp.cache(false);
     } 
     catch (error) {
       console.log('error = ', error)
     }
-    finally{
-
-    }
-    
+  
     return await this.userModel.deleteOne({"_id": userId})
   }
 }
